@@ -52,13 +52,6 @@ RUN cd /tmp \
     && chmod +x linux-install-1.11.1.1273.sh \
     && ./linux-install-1.11.1.1273.sh
 
-# TODO
-# set locale to support UTF-8 codebase of Clojupyter
-RUN apt-get install -yq locales \
-    && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
-    && echo "fr_FR.UTF-8 UTF-8" >> /etc/locale.gen \
-    && locale-gen
-
 ENV LC_ALL en_US.UTF-8
 
 RUN cd /tmp/ \
@@ -79,13 +72,6 @@ RUN cd /tmp \
 ENV PATH=${PATH}:/opt/kotlinc/bin
 RUN pip install kotlin-jupyter-kernel
 
-# 
-# Pytorch
-#
-
-RUN pip install torch torchvision torchaudio torchtext transformers
-RUN pip install pytorch-lightning torchmetrics
-
 #
 # Quarto
 #
@@ -93,3 +79,22 @@ RUN cd /tmp \
     && wget https://github.com/quarto-dev/quarto-cli/releases/download/v1.3.340/quarto-1.3.340-linux-amd64.tar.gz \
     && tar -C /opt -xzf quarto-1.3.340-linux-amd64.tar.gz \
     && ln -s /opt/quarto-1.3.340/bin/quarto /bin/quarto
+
+#
+# Pytorch
+#
+RUN pip install torch
+RUN pip install torchaudio torchtext torchvision torchmetrics
+RUN pip install transformers
+RUN pip install pytorch-lightning
+
+#
+# PATH
+#
+RUN echo 'export PATH=/opt/miniconda3/bin:$PATH' >> /etc/bash.bashrc
+
+# @TODO
+RUN pip install --upgrade nbconvert==7.2.1 mistune==2.0.4
+RUN pip install jupyterlab-quarto
+RUN pip install jupyter-server-proxy && jupyter serverextension enable --sys-prefix jupyter_server_proxy
+

@@ -16,7 +16,14 @@ RUN apt-get update && apt-get install -yq \
     wget \
     curl \
     unzip \
+    tmux \
     sudo
+
+# set locale to support UTF-8 codebase of Clojupyter
+RUN apt-get install -yq locales \
+    && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
+    && echo "fr_FR.UTF-8 UTF-8" >> /etc/locale.gen \
+    && locale-gen
 
 #
 # Core Python
