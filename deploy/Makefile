@@ -7,6 +7,7 @@ help:
 	@echo "Usage: make recipe=<...> start | stop | check"
 
 check:
+	@echo ---------------------------------
 	@[ "${recipe}" ] \
 		|| (echo "[Error] recipe is not specified from command line"; exit 1) \
 		&& (echo "recipe = ${recipe}")
@@ -31,6 +32,7 @@ check:
 	@[ "${home}" ] \
 		|| (echo "[Warning] home is not set") \
 		&& (echo "home = ${home}")
+	@echo ---------------------------------
 
 ifdef cpus
 cpus_args = --cpus $(cpus)
@@ -52,17 +54,34 @@ ifeq ($(note),)
 note = "$(recipe) runtime environment"
 endif
 
+ifdef home
+home_args = -v `realpath $(home)`:/home
+endif
+
 path=$(realpath $(recipe))
 
-start: check
-	docker run --rm -d \
+docker_cmd = docker run --rm -d \
 		--name $(name) \
 		$(memory_args) $(cpus_args) \
 		$(ssh_args) $(web_args) \
 		-e site_name="$(note)" \
 		-v $(path)/repos.json:/etc/repos.json \
 		-v $(path)/users.default:/etc/users.default \
+		$(home_args) \
+		$(extra_args) \
 		kenpu/uber
+
+dry-run: check
+ifdef home
+	@echo mkdir -p `realpath $(home)`
+endif
+	@echo $(docker_cmd)
+
+start: check
+ifdef home
+	@mkdir -p `realpath $(home)`
+endif
+	$(docker_cmd)
 
 stop:
 	docker rm -f $(name)
