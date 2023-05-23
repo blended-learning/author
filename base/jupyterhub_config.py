@@ -733,7 +733,7 @@
 #  Default: {}
 import os
 c.JupyterHub.template_vars = {
-        'announcement': 'Site: %s' % os.environ.get('site_name', 'Research Container')
+        'announcement': f'%s' % os.environ.get('site_name', 'Research Container')
 }
 
 ## Extra settings overrides to pass to the tornado application.

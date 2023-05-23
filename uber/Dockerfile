@@ -89,12 +89,25 @@ RUN pip install transformers
 RUN pip install pytorch-lightning
 
 #
-# PATH
+# Quarto
 #
-RUN echo 'export PATH=/opt/miniconda3/bin:$PATH' >> /etc/bash.bashrc
-
-# @TODO
 RUN pip install --upgrade nbconvert==7.2.1 mistune==2.0.4
 RUN pip install jupyterlab-quarto
 RUN pip install jupyter-server-proxy && jupyter serverextension enable --sys-prefix jupyter_server_proxy
+# @TODO
+RUN pip install gitpython 
+RUN pip install jupyterlab-mathjax3
+RUN quarto install tinytex
 
+#
+# @TODO: fix timezone
+#
+RUN ln -sf /usr/share/zoneinfo/America/New_York /etc/localtime && \
+    dpkg-reconfigure -f noniterative tzdata
+ENV TZ="America/New_York"
+
+# Tools
+COPY ./bash.bashrc /etc/
+COPY ./profile /etc/
+COPY ./repos.json /etc/repos.json
+COPY ./github_setup.py /bin/github_setup
