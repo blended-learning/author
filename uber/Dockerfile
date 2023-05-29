@@ -3,26 +3,22 @@ FROM kenpu/base:latest
 #
 # Data Science
 #
-RUN mamba install --quiet --yes \
+RUN pip install \
     'altair' \
     'beautifulsoup4' \
     'bokeh' \
     'bottleneck' \
     'cloudpickle' \
-    'conda-forge::blas=*=openblas' \
     'cython' \
     'dask' \
     'dill' \
     'h5py' \
     'ipympl'\
     'ipywidgets' \
-    'matplotlib-base' \
+    'matplotlib' \
     'numba' \
     'numexpr' \
     'pandas' \
-    'patsy' \
-    'protobuf' \
-    'pytables' \
     'scikit-image' \
     'scikit-learn' \
     'scipy' \
@@ -31,8 +27,7 @@ RUN mamba install --quiet --yes \
     'statsmodels' \
     'sympy' \
     'widgetsnbextension'\
-    'xlrd' && \
-    mamba clean --all -f -y
+    'xlrd'
 
 #
 # Java
