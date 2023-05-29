@@ -70,3 +70,5 @@ if [ -x /usr/lib/command-not-found -o -x /usr/share/command-not-found/command-no
 	}
 fi
 export PATH=$HOME/.local/bin:/opt/miniconda3/bin:$PATH
+export COURSIER_CACHE=/usr/share/coursier/cache
+
