@@ -95,6 +95,22 @@ RUN pip install jupyterlab-mathjax3
 RUN quarto install tinytex
 
 #
+# Scala kernel
+#
+# @TODO: should move up next to Kotlin kernel
+RUN curl -Lo /usr/bin/coursier https://git.io/coursier-cli && chmod +x /usr/bin/coursier
+ENV ALMOND_VERSION="0.10.3"
+ENV SCALA_VERSION=2.12.12
+RUN mkdir -p /usr/share/coursier/cache
+ENV COURSIER_CACHE=/usr/share/coursier/cache
+RUN coursier launch \
+          --fork almond:${ALMOND_VERSION} \
+          --scala ${SCALA_VERSION} \
+          -- --install --jupyter-path /opt/miniconda3/share/jupyter/kernels
+RUN chmod -R a+rx /usr/share/coursier
+RUN chmod -R a+rx /opt/miniconda3/share/jupyter/kernels
+
+#
 # @TODO: fix timezone
 #
 RUN ln -sf /usr/share/zoneinfo/America/New_York /etc/localtime && \
@@ -106,3 +122,5 @@ COPY ./bash.bashrc /etc/
 COPY ./profile /etc/
 COPY ./repos.json /etc/repos.json
 COPY ./github_setup.py /bin/github_setup
+COPY ./tmux.conf /etc/tmux.conf
+
