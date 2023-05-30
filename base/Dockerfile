@@ -38,7 +38,7 @@ RUN rm -f /Miniconda3-latest-Linux-x86_64.sh
 # Jupyter
 #
 
-RUN pip install jupyterlab==3.6.3 jupyterhub==3.1
+RUN pip install jupyterlab==3.6.3 jupyterhub==3.1.1
 RUN cd /tmp && \
     wget -q https://nodejs.org/dist/v14.18.1/node-v14.18.1-linux-x64.tar.xz && \
     tar xvf ./node-v14.18.1-linux-x64.tar.xz && \
