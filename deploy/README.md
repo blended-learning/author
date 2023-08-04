@@ -28,3 +28,9 @@ docker run -it --rm --name <name>
     -v <userfile>:/etc/<userfile>
     -v <home>:/home
 ```
+
+# Use Makefile
+
+```
+make reciple=data/<...>.env
+```

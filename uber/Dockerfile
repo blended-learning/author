@@ -117,6 +117,11 @@ RUN ln -sf /usr/share/zoneinfo/America/New_York /etc/localtime && \
     dpkg-reconfigure -f noniterative tzdata
 ENV TZ="America/New_York"
 
+#
+# @TODO: lightning
+#
+RUN pip install lightning
+
 # Tools
 COPY ./bash.bashrc /etc/
 COPY ./profile /etc/
