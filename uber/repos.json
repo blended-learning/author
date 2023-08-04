@@ -1,7 +1,0 @@
-{
-    "author": {
-        "github_user": "kenpu-uoit",
-        "token": "$GITHUB_TOKEN",
-        "repos": ["kenpu-uoit/web"]
-    }
-}

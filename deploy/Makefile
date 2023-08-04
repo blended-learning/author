@@ -3,6 +3,7 @@ env_file = $(recipe)/env
 -include $(env_file)
 export
 
+
 port_base = $(shell echo ${recipe} | python -c \
   'import sys, re; x=sys.stdin.read(); x=re.search(r"\d+",x).group(0); print(x)')
 ssh = $(port_base)2
@@ -12,6 +13,7 @@ expose_ports_args = -p $(port_base)0:3000 -p $(port_base)1:3001
 base_name = $(shell echo ${recipe} | python -c \
   'import sys, re; x=sys.stdin.read().strip().strip("/").split("/")[-1]; print(x.split(".")[0])')
 home = ./data/$(base_name)
+
 
 help:
 	@echo "Usage: make recipe=<...> start | stop | check"
@@ -75,7 +77,6 @@ docker_cmd = docker run --rm -d \
 		$(memory_args) $(cpus_args) \
 		$(ssh_args) $(web_args) \
 		-e site_name="$(note)" \
-		-v $(path)/repos.json:/etc/repos.json \
 		-v $(path)/users.default:/etc/users.default \
 		$(home_args) \
 		$(expose_ports_args) \
