@@ -29,6 +29,8 @@ check:
 	@[ "${note}" ] \
 		|| (echo "[Warning] note is not set") \
 		&& (echo "note = ${note}")
+	@echo "port_base ${port_base}"
+	@echo ${expose_ports_args}
 	@[ "${ssh}"  ] \
 		|| (echo "[Note] ssh is not enabled") \
 		&& (echo "ssh = ${ssh}")

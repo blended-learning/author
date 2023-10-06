@@ -121,11 +121,10 @@ ENV TZ="America/New_York"
 # @TODO: lightning
 #
 RUN pip install lightning
+RUN apt-get install -yq jq
 
 # Tools
 COPY ./bash.bashrc /etc/
 COPY ./profile /etc/
-COPY ./repos.json /etc/repos.json
-COPY ./github_setup.py /bin/github_setup
 COPY ./tmux.conf /etc/tmux.conf
 
