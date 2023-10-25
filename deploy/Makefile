@@ -1,4 +1,9 @@
 .PHONY: all prepare check
+
+all:
+	python ls_dockers.py
+
+ifdef recipe
 env_file = $(recipe)/env
 -include $(env_file)
 export
@@ -13,7 +18,7 @@ expose_ports_args = -p $(port_base)0:3000 -p $(port_base)1:3001
 base_name = $(shell echo ${recipe} | python -c \
   'import sys, re; x=sys.stdin.read().strip().strip("/").split("/")[-1]; print(x.split(".")[0])')
 home = ./data/$(base_name)
-
+endif
 
 help:
 	@echo "Usage: make recipe=<...> start | stop | check"
@@ -30,7 +35,6 @@ check:
 		|| (echo "[Warning] note is not set") \
 		&& (echo "note = ${note}")
 	@echo "port_base ${port_base}"
-	@echo ${expose_ports_args}
 	@[ "${ssh}"  ] \
 		|| (echo "[Note] ssh is not enabled") \
 		&& (echo "ssh = ${ssh}")
@@ -73,9 +77,11 @@ home_args = -v `realpath $(home)`:/home
 endif
 
 path=$(realpath $(recipe))
+network="network_$(name)"
 
 docker_cmd = docker run --rm -d \
 		--name $(name) \
+		--network $(network) \
 		$(memory_args) $(cpus_args) \
 		$(ssh_args) $(web_args) \
 		-e site_name="$(note)" \
@@ -91,7 +97,11 @@ ifdef home
 endif
 	@echo $(docker_cmd)
 
-start: check
+network:
+	docker network inspect $(network) >/dev/null 2>&1 || \
+		docker network create --driver bridge $(network)
+
+start: check network
 ifdef home
 	@mkdir -p `realpath $(home)`
 endif

@@ -123,6 +123,10 @@ ENV TZ="America/New_York"
 RUN pip install lightning
 RUN apt-get install -yq jq
 
+RUN pip install ortools
+RUN apt-get update && apt-get install -yq postgresql-client
+RUN pip install psycopg2-binary asyncpg
+
 # Tools
 COPY ./bash.bashrc /etc/
 COPY ./profile /etc/
