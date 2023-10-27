@@ -1,7 +1,0 @@
-{
-    "author": {
-        "github_user": "<github username>",
-        "token": "<secret>",
-        "repos": ["<org>/<repo>"]
-    }
-}

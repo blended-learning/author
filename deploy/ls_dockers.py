@@ -7,10 +7,10 @@ hostname = socket.gethostname()
 
 def get_public_port(local_port):
     local_port = int(local_port)
-    if hostname.startswith('gpu03'):
-        return local_port
-    else:
+    if hostname.startswith('gpu04'):
         return local_port + 2001
+    else:
+        return local_port
 
 def get_row(info):
     row = []
@@ -46,10 +46,10 @@ def get_row(info):
         else:
             other_ports.append((public_port, container_port))
 
-    row.append(f'ssh :{ssh_port}' if ssh_port else '')
-    row.append(f'lab :{jupyter_port}' if jupyter_port else '')
+    row.append(f'{ssh_port}' if ssh_port else '')
+    row.append(f'{jupyter_port}' if jupyter_port else '')
     exposed = ', '.join(f"{x}->{y}" for (x,y) in other_ports)
-    row.append(f'exposed: {exposed}' if other_ports else '')
+    row.append(f'{exposed}' if other_ports else '')
 
     # get gpus
     gpus = []
@@ -80,8 +80,11 @@ for container in client.containers.list():
 from rich.console import Console
 from rich.table import Table
 
-table = Table('Research dockers')
-for row in rows:
+def get_sort_key(row):
+    return (row[4], row[0])
+
+table = Table('Name', 'Image', 'Home', 'SSH', 'Web', 'Ports', 'GPU')
+for row in sorted(rows, key=get_sort_key):
     table.add_row(*row)
 
 console = Console()

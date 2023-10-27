@@ -1,4 +1,3 @@
 env
-repos.json
-*.recipe
 data/
+recipe/

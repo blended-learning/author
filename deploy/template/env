@@ -1,8 +1,0 @@
-name=standard
-note=Standard Runtime Environment
-ssh=8022
-web=8000
-cpus=8
-memory=8G
-home=
-extra_args=
