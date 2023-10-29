@@ -44,7 +44,7 @@ docker_cmd = docker run --rm -d \
 		$(home_args) \
 		$(expose_ports_args) \
 		$(extra_args) \
-		kenpu/uber
+		$(image)
 
 all:
 	python ls_dockers.py
@@ -64,6 +64,9 @@ check:
 	@[ "${note}" ] \
 		|| (echo "[Error] note is not set"; exit 1) \
 		&& (echo "note = ${note}")
+	@[ "${image}" ] \
+		|| (echo "[Error] image is not set"; exit 1) \
+		&& (echo "image = ${image}")
 	@echo "port_base ${port_base}"
 	@[ "${ssh}"  ] \
 		|| (echo "[Note] ssh is not enabled") \
