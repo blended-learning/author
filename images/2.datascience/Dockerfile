@@ -32,4 +32,8 @@ RUN pip install \
     psycopg2-binary \
     asyncpg
 
-
+#
+# OpenCV
+#
+RUN conda install -y -c menpo opencv
+RUN apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
